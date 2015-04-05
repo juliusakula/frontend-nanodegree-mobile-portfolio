@@ -451,10 +451,11 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover'); // removing from loop drastically reduced script time.
-  var scrollTopInt = document.body.scrollTop;
+  var phaseInt = document.body.scrollTop / 1250;
+  
   for (var i = 0, len = items.length; i < len; i++) {  // define len = '...' so that the memory lookup is optimized.
-    var phase = Math.sin((scrollTopInt / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    var phase = Math.sin(phaseInt + i % 5) * 100;
+    items[i].style.transform = 'translateX(' + phase + 'px) translateZ(0)';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -480,7 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
+    elem.style.left = (i % cols) * s + 'px';
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
