@@ -1,3 +1,5 @@
+# File location is /dist/index.html
+
 #Optimizations
 
 * minified png files
