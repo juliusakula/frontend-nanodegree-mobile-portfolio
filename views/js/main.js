@@ -452,7 +452,7 @@ function updatePositions() {
     window.performance.mark("mark_start_frame");
 
     var items = document.querySelectorAll('.mover'); // removing from loop drastically reduced script time.
-    var phaseInt = document.body.scrollTop / 1250;
+    var phaseInt = scrollTopInt / 1250;
 
     for (var i = 0, len = items.length; i < len; i++) {  // define len = '...' so that the memory lookup is optimized.
         var phase = Math.sin(phaseInt + i % 5) * 100;
