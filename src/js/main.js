@@ -308,6 +308,7 @@ var selectRandom = function(array){
 
 // returns a DOM element for each pizza
     pizzaElementGenerator = function(i) {
+
         var pizzaContainer,             // contains pizza title, image and list of ingredients
             pizzaImageContainer,        // contains the pizza image
             pizzaImage,                 // the pizza image itself
@@ -375,6 +376,7 @@ var selectRandom = function(array){
         var cachedPizzaContainer = document.getElementsByClassName("randomPizzaContainer");
         var cachedPizzaContainerLen = cachedPizzaContainer.length;
 
+        //optimization : remove Dx function.
         function sizeSwitcher(size) {
             switch (size) {
                 case "1":
