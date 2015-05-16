@@ -18,6 +18,8 @@
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
+
+// optimization: declare pizzaIngredients with properties all at once. Less round trips to storing these properties in memory.
 var pizzaIngredients = {
     meats: [
         "Pepperoni",
@@ -257,6 +259,7 @@ function getNoun(y) {
     }
 }
 
+//optimization: use commas and declare multiple variables at once, so that memory allocation happens faster
 var adjectives = ["dark", "color", "whimsical", "shiny", "noise", "apocalyptic", "insulting", "praise", "scientific"],  // types of adjectives for pizza titles
     nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];                        // types of nouns for pizza titles
 
@@ -277,9 +280,12 @@ function randomName() {
     return generator(adjectives[randomNumberAdj], nouns[randomNumberNoun]);
 }
 
+//optimization: use commas and declare multiple variables at once, so that memory allocation happens faster
+//optimization: pass array to select random to select 1 item. This way, there only needs to be this function and not "selectRandomCrust" "selectRandomCheese" etc. saves a bit of file size
 // These functions return a string of a random ingredient from each respective category of ingredients.
 var selectRandom = function(array){
         var random = array[Math.floor((Math.random() * array.length))];
+        //optimization: combined itemizer and random selector
         return "<li>" + random + "</li>";
         // pizzaIngredients.meats, pizzaIngredients.nonMeats, pizzaIngredients.cheeses, pizzaIngredients.sauces, pizzaIngredients.crusts
     },
@@ -327,6 +333,7 @@ var selectRandom = function(array){
         pizzaContainer.id = "pizza" + i;                // gives each pizza element a unique id
         pizzaImageContainer.classList.add("col-md-6");
 
+        //optimization: use imagemin to reduce pizza.png filesize
         pizzaImage.src = "../dist/images/pizza.png";
         pizzaImage.classList.add("img-responsive");
         pizzaImageContainer.appendChild(pizzaImage);
@@ -353,6 +360,7 @@ var selectRandom = function(array){
 
         // Changes the value for the size of the pizza above the slider
         function changeSliderLabel(size) {
+            //optimization: mostly for readability, pull this doc.querySelector out, since we'd be doin the same query multiple times
             var pizzas = document.querySelector("#pizzaSize");
             switch(size) {
                 case "1":
@@ -377,6 +385,7 @@ var selectRandom = function(array){
         var cachedPizzaContainerLen = cachedPizzaContainer.length;
 
         //optimization : remove Dx function.
+
         function sizeSwitcher(size) {
             switch (size) {
                 case "1":
@@ -393,9 +402,8 @@ var selectRandom = function(array){
             var newsize = (sizeSwitcher(size) * 100) + "%";
 
             for (var i = 0; i < cachedPizzaContainerLen; i++) {
-                //console.log(newsize);
-                cachedPizzaContainer[i].style.width = newsize;
-                //console.log(thisContainer);
+                //optimization: don't use Dx function
+                    cachedPizzaContainer[i].style.width = newsize;
                 }
             }
 
@@ -410,6 +418,8 @@ var selectRandom = function(array){
 
 window.performance.mark("mark_start_generating"); // collect timing data
 // This for-loop actually creates and appends all of the pizzas when the page loads
+
+//optimization: don't query document in a for loop unneccessarily
 var pizzasDiv = document.getElementById("randomPizzas"); // don't set vars in loops.
 for (var i = 2; i < 100; i++) {
     pizzasDiv.appendChild(pizzaElementGenerator(i));
@@ -444,11 +454,15 @@ function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
 
+    //optimization: use  getElementsByClassName instead of querySelectAll, its faster.
     var items = document.getElementsByClassName('mover'); // removing from loop drastically reduced script time.
+
+    //optimization: pull this out of for loop
     var phaseInt = document.body.scrollTop / 1250;
 
     for (var i = 0, len = items.length; i < len; i++) {  // define len = '...' so that the memory lookup is optimized.
         var phase = Math.sin(phaseInt + i % 5) * 100;
+        //optimization: translateX instead of setting left value. this way it does not trigger a layout rerender
         items[i].style.transform = 'translateX(' + phase + 'px) translateZ(0)';
     }
 
@@ -469,9 +483,11 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
     var cols = 8,
         s = 256;
+    //optimization: you can't see 200 moving pizzas, so instead render only 50.
     for (var i = 0; i < 50; i++) {
         var elem = document.createElement('img');
         elem.classList.add("mover");
+        //optimization: use imagemin version of png file to reduce response time
         elem.src = "../dist/images/pizza.png";
         elem.style.height = "100px";
         elem.style.width = "73.333px";

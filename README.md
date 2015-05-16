@@ -1,12 +1,16 @@
-# File location is /dist/index.html
+# File to evaluate is /dist/index.html (the pizza page)
 
-#Optimizations
+# Optimizations
 
 * minified png files
 * minified javascript files (grunt)
 * functions that called document.querySelectAll were refactored
 * functions that were unnecessary were refactored
 * instead of 200 moving pizzas, only 50
+
+# Initialize Project
+
+##### You don't need to run grunt build to compile it, the necessary compiled files have been committed so that this may be served on gh-pages. Clone this repo and then serve via MAMP/LAMP.
 
 ## Website Performance Optimization portfolio project
 
