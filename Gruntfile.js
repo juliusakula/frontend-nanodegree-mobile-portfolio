@@ -6,15 +6,26 @@ module.exports = function(grunt) {
       imagemin: {
           dist: {
               options: {
-                  optimizationLevel: 3,
-                  jpegoptim: true
+                  optimizationLevel: 3
 
               },
               files: [{
                   expand: true,
                   cwd: 'src/images/',
-                  src: ['*.{png,gif}'],
+                  src: ['*.{png,gif,jpg}'],
                   dest: 'dist/'
+              }]
+          },
+          toplevel: {
+              options: {
+                  optimizationLevel: 3
+
+              },
+              files: [{
+                  expand: true,
+                  cwd: 'img/',
+                  src: ['*.{png,gif,jpg}'],
+                  dest: 'dist/img/'
               }]
           }
       },
@@ -39,7 +50,7 @@ module.exports = function(grunt) {
            *  simultaneously delete it from dist/. Grunt is a build tool and when you look at a build, you want
            *  to know that the build contains no residue from previous builds, to ensure success when deploying the project elsewhere.
            */
-          main: ['dist']
+          main: ['dsist']
       },
       uglify: {
           main: {
